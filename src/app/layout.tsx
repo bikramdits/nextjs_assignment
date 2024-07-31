@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html lang="en">
-      <body className={`${font.className} bg-bg min-h-screen flex flex-col`}>
+      <body className={`${font.className} relative bg-bg min-h-screen flex flex-col`}>
         {children}
 
-        <Image priority src={"/svg/bg.svg"} alt="background" fill className="top-[auto_!important] bottom-0 left-0 right-0 h-[auto_!important] z-[-1]" />
+        <Image priority src={"/svg/bg.svg"} alt="background" fill className="top-[unset!important] bottom-0 left-0 right-0 h-[auto_!important] z-[-1]" />
       </body>
     </html>
   )

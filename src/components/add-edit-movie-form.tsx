@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Button, Input } from "./ui"
+import { Button, DropImage, Input } from "./ui"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
@@ -10,7 +10,7 @@ import * as Yup from "yup"
 enum Fields {
   TITLE = "title",
   YEAR = "year",
-  IMAGE = "image"
+  IMAGE = "image",
 }
 
 // Form Type
@@ -58,16 +58,30 @@ export function MovieForm({ movie }: any) {
   const onSubmit = (data: MovieFormFields) => console.log(data)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-12">
       <h2 className="col-span-2 mb-12 text-h2 font-semibold text-white">
         {isEdit ? "Edit" : "Create a new movie"}
       </h2>
 
-      <div className="">Drop Image</div>
+      <div className="min-h-96">
+        <DropImage />
+      </div>
 
       <div className="flex flex-col items-start gap-6">
-        <Input placeholder="Title" containerStyles="w-full" name={Fields.TITLE} register={register} />
-        <Input placeholder="Publish Year" type="number" name={Fields.YEAR} register={register} />
+        <Input
+          placeholder="Title"
+          containerStyles="w-full"
+          error={errors[Fields.TITLE]?.message}
+          name={Fields.TITLE}
+          register={register}
+        />
+        <Input
+          placeholder="Publish Year"
+          type="number"
+          error={errors[Fields.YEAR]?.message}
+          name={Fields.YEAR}
+          register={register}
+        />
 
         <div className="mt-10 flex gap-4">
           <Button
