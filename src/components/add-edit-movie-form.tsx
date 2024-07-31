@@ -58,16 +58,19 @@ export function MovieForm({ movie }: any) {
   const onSubmit = (data: MovieFormFields) => console.log(data)
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-12">
-      <h2 className="col-span-2 mb-12 text-h2 font-semibold text-white">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-1 gap-12 md:grid-cols-2"
+    >
+      <h2 className="mb-12 text-h2 font-semibold text-white md:col-span-2">
         {isEdit ? "Edit" : "Create a new movie"}
       </h2>
 
-      <div className="min-h-96">
+      <div className="hidden min-h-96 md:inline-block">
         <DropImage />
       </div>
 
-      <div className="flex flex-col items-start gap-6">
+      <div className="flex flex-col gap-6 md:items-start">
         <Input
           placeholder="Title"
           containerStyles="w-full"
@@ -78,20 +81,26 @@ export function MovieForm({ movie }: any) {
         <Input
           placeholder="Publish Year"
           type="number"
+          containerStyles="w-full md:w-auto"
           error={errors[Fields.YEAR]?.message}
           name={Fields.YEAR}
           register={register}
         />
 
+        <div className="min-h-96 md:hidden">
+          <DropImage />
+        </div>
+
         <div className="mt-10 flex gap-4">
           <Button
+            type="button"
             variant="secondary"
-            className="w-48"
+            className="w-full md:w-48"
             onClick={() => router.back()}
           >
             Cancel
           </Button>
-          <Button type="submit" className="w-48">
+          <Button type="submit" className="w-full md:w-48">
             Submit
           </Button>
         </div>

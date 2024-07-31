@@ -3,7 +3,7 @@ import Image from "next/image"
 export function MovieCard() {
   return (
     <>
-      <div className="group min-h-[31rem] rounded-xl bg-card px-2 pb-4 pt-2 flex flex-col cursor-pointer hover:bg-card/55">
+      <div className="group min-h-[23rem] md:min-h-[30rem] rounded-xl bg-card sm:px-2 pb-4 sm:pt-2 flex flex-col cursor-pointer hover:bg-card/55">
         <div className="relative flex-1 rounded-[inherit]">
           <Image src={"/images/dummy.jpeg"} fill alt="movie-name" className="rounded-[inherit]" />
         </div>

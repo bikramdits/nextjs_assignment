@@ -43,7 +43,7 @@ export default function SignIn() {
 
   const onSubmit = (data: LoginForm) => console.log(data)
   return (
-    <div className="flex w-[18.75rem] flex-1 flex-col items-center justify-center gap-8 self-center">
+    <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center">
       <h1 className="text-h1 font-semibold text-white">Sign In</h1>
 
       <form
