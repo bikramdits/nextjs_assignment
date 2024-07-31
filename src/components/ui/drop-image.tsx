@@ -1,29 +1,67 @@
-"use client";
+"use client"
 
 import Image from "next/image"
-import { useRef } from "react"
+import { ChangeEvent, DragEvent, useRef, useState } from "react"
 
 export function DropImage() {
-  const inputEl = useRef<HTMLInputElement>(null);
+  const inputEl = useRef<HTMLInputElement>(null)
+  const [inputImg, setImg] = useState<File | undefined>(undefined)
 
+  const onImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length === 0) {
+      return
+    }
+
+    setImg(e.target.files?.[0])
+  }
+  
   return (
-    <div className="relative h-full flex flex-col items-center justify-center rounded-lg border border-dashed border-white bg-input">
-      <input
-        ref={inputEl}
-        type="file"
-        accept="image/*"
-        className="absolute inset-0 opacity-0"
-      />
+    <div
+      onDragOver={(e) => e.preventDefault()}
+      className="relative flex h-full flex-col items-center justify-center rounded-lg border border-dashed border-white bg-input"
+    >
+      {inputImg ? (
+        <>
+          <Image
+            src={URL.createObjectURL(inputImg)}
+            fill
+            alt="add-image"
+            className="rounded-[inherit]"
+          />
 
-      <div className="flex flex-col items-center gap-1">
-        <Image
-          src={"/icons/file.svg"}
-          width={"16"}
-          height={"16"}
-          alt="add-image"
-        />
-        <p className="text-sm text-white ">Drop an image here</p>
-      </div>
+          <button
+            onClick={() => setImg(undefined)}
+            className="relative -top-4 left-4 mb-auto h-8 w-8 self-end rounded-full bg-error p-1"
+          >
+            <Image
+              src={"/icons/cancel.svg"}
+              fill
+              alt="cancel-image"
+              className="tint-red"
+            />
+          </button>
+        </>
+      ) : (
+        <>
+          <input
+            ref={inputEl}
+            type="file"
+            accept="image/*"
+            onChange={onImageSelect}
+            className="absolute inset-0 opacity-0"
+          />
+
+          <div className="flex flex-col items-center gap-1">
+            <Image
+              src={"/icons/file.svg"}
+              width={"16"}
+              height={"16"}
+              alt="add-image"
+            />
+            <p className="text-sm text-white ">Drop an image here</p>
+          </div>
+        </>
+      )}
     </div>
   )
 }
