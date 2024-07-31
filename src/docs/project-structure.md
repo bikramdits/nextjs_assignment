@@ -1,3 +1,0 @@
-## Project Folder Structure guide
-
-
