@@ -12,7 +12,7 @@ export default async (req, res,next) => {
         param,
 		method,
 	} = req;
-    console.log(param,"param")
+
 	switch (method) {
 		case "POST":
 			try {

@@ -15,8 +15,8 @@ const connection = {};
 
 		connection.isConnected = db.connections[0].readyState;
 
-		console.log("MongoDB Connected");
+	
 	} catch (error) {
-		console.log(error);
+		console.log(error.message);
 	}
 })();

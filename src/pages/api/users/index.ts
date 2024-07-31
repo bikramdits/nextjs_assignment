@@ -65,7 +65,7 @@ export default async (req:NextApiRequest, res:NextApiResponse) => {
                 }
                 return SendResponse(res,RESPONSE_MESSAGES.COMMON.USER_DELETED_SUCCESSFULLY,StatusCodes.OK)
 			} catch (error) {
-                console.log(error)
+         
 				return res.status(404).json({
 					success: false,
 				});
