@@ -26,7 +26,7 @@ export function DropImage({ image, error, onImageChange }: DropImageProps) {
     <div
       onDragOver={(e) => e.preventDefault()}
       className={cn(
-        "bg-input relative flex h-full flex-col items-center justify-center rounded-lg border border-dashed ",
+        "relative flex h-full flex-col items-center justify-center rounded-lg border border-dashed bg-input ",
         error ? "border-error text-error" : "border-white text-white"
       )}
     >
@@ -41,7 +41,7 @@ export function DropImage({ image, error, onImageChange }: DropImageProps) {
 
           <button
             onClick={() => onImageChange(undefined)}
-            className="bg-error relative -top-4 left-4 mb-auto h-8 w-8 self-end rounded-full p-1"
+            className="relative -top-4 left-4 mb-auto h-8 w-8 self-end rounded-full bg-error p-1"
           >
             <Image
               src={"/icons/cancel.svg"}
@@ -72,7 +72,7 @@ export function DropImage({ image, error, onImageChange }: DropImageProps) {
         </>
       )}
 
-      <p className="text-error absolute -bottom-8 left-0">{error}</p>
+      <p className="absolute -bottom-8 left-0 text-error">{error}</p>
     </div>
   )
 }

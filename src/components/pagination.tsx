@@ -75,7 +75,9 @@ export function Pagination(props: PaginationProps) {
             }
 
             if (num < 10) {
-              return <div className="h-1 w-1 rounded-full bg-white" />
+              return (
+                <div key={`${num}`} className="h-1 w-1 rounded-full bg-white" />
+              )
             }
           }
 

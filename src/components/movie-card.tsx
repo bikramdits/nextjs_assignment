@@ -7,7 +7,7 @@ export function MovieCard(movie: IMovie) {
     <>
       <Link
         href={`/movies/edit/${movie._id}`}
-        className="bg-card hover:bg-card/55 group flex min-h-[23rem] cursor-pointer flex-col rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]"
+        className="group flex min-h-[23rem] cursor-pointer flex-col rounded-xl bg-card pb-4 hover:bg-card/55 sm:px-2 sm:pt-2 md:min-h-[30rem]"
       >
         <div className="relative flex-1 rounded-[inherit]">
           <Image
@@ -35,7 +35,7 @@ export function MovieCard(movie: IMovie) {
 export function MovieCardSkelton() {
   return (
     <>
-      <div className="bg-card min-h-[23rem] animate-pulse rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]" />
+      <div className="min-h-[23rem] animate-pulse rounded-xl bg-card pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]" />
     </>
   )
 }

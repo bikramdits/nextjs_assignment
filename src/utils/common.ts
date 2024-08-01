@@ -1,8 +1,8 @@
-// import * as path from 'path' 
+// import * as path from 'path'
 // module.exports = {
 //    mode: "production",
 //    entry: '../wherever/MyClassName.js',
-   
+
 //    output: {
 //        library: {
 //          name: "MyClassName",

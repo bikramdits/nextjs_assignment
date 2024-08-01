@@ -41,7 +41,7 @@ const movieFormSchema = Yup.object().shape({
         return true
       }
 
-      console.log("Validation Schema - ", 'Passed');
+      console.log("Validation Schema - ", "Passed")
       if (value instanceof File) {
         return value && value.size <= 1024 * 1024 // 1MB
       }
@@ -62,7 +62,7 @@ type MovieFormProps = {
   movie?: IMovie
 }
 export function MovieForm({ movie }: MovieFormProps) {
-  const isEdit = !!movie;
+  const isEdit = !!movie
   const router = useRouter()
   const {
     register,
@@ -115,8 +115,8 @@ export function MovieForm({ movie }: MovieFormProps) {
       await updateRequest(`/movies?id=${movie._id}`, formData, {
         "Content-Type": "multipart/form-data; boundary=12345",
       })
-      toast.success("Movie Updated successfully!");
-      router.push('/')
+      toast.success("Movie Updated successfully!")
+      router.push("/")
     } catch (e: any) {
       toast.error(e.response.data.message)
     }
@@ -135,8 +135,8 @@ export function MovieForm({ movie }: MovieFormProps) {
       await postRequest("/movies", formData, {
         "Content-Type": "multipart/form-data; boundary=12345",
       })
-      toast.success("Movie Created successfully!");
-      router.push('/');
+      toast.success("Movie Created successfully!")
+      router.push("/")
       reset()
     } catch (e: any) {
       toast.error(e.response.data.message)
@@ -161,7 +161,7 @@ export function MovieForm({ movie }: MovieFormProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="grid grid-cols-1 gap-12 md:grid-cols-2"
     >
-      <h2 className="text-h2 mb-12 font-semibold text-white md:col-span-2">
+      <h2 className="mb-12 text-h2 font-semibold text-white md:col-span-2">
         {isEdit ? "Edit" : "Create a new movie"}
       </h2>
 
@@ -177,7 +177,7 @@ export function MovieForm({ movie }: MovieFormProps) {
           register={register}
         />
         <Select
-        options={getOptionsTillYear()}
+          options={getOptionsTillYear()}
           containerStyles="w-full md:w-auto"
           error={errors[Fields.YEAR]?.message}
           name={Fields.YEAR}

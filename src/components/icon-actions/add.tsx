@@ -19,11 +19,7 @@ export function AddIconAction(props: AddIconActionProps) {
     return (
       <Link
         href={link}
-        className={cn(
-          other.className,
-          "relative",
-          `h-5 w-5 md:h-8 md:w-8`
-        )}
+        className={cn(other.className, "relative", `h-5 w-5 md:h-8 md:w-8`)}
       >
         <Image src={"/icons/add-icon.svg"} alt="add-icon" fill />
       </Link>
@@ -32,11 +28,7 @@ export function AddIconAction(props: AddIconActionProps) {
   return (
     <button
       {...other}
-      className={cn(
-        other.className,
-        "relative",
-        `h-5 w-5 md:h-8 md:w-8`
-      )}
+      className={cn(other.className, "relative", `h-5 w-5 md:h-8 md:w-8`)}
     >
       <Image src={"/icons/add-icon.svg"} alt="add-icon" fill />
     </button>

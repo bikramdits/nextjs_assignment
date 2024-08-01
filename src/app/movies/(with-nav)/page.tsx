@@ -18,9 +18,11 @@ type PageProps = {
 }
 
 export default function AppListPage({ searchParams }: PageProps) {
-  const page = searchParams[appConstants.PAGINATION_PARAM] as string || '1';
+  const page = (searchParams[appConstants.PAGINATION_PARAM] as string) || "1"
   const [movies, setMovies] = useState<IMovie[]>([])
-  const [getMoviesState, setGetMoviesState] = useState<ApiState>(ApiState.LOADING)
+  const [getMoviesState, setGetMoviesState] = useState<ApiState>(
+    ApiState.LOADING
+  )
   const [pages, setPages] = useState<number>(+page ?? 1)
 
   useEffect(() => {
@@ -47,8 +49,8 @@ export default function AppListPage({ searchParams }: PageProps) {
   if (getMoviesState === ApiState.LOADING) {
     return (
       <LoadingUI>
-        {[1, 2, 3, 4].map((_) => {
-          return <MovieCardSkelton />
+        {[1, 2, 3, 4].map((k) => {
+          return <MovieCardSkelton key={k} />
         })}
       </LoadingUI>
     )

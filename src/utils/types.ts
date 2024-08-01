@@ -9,7 +9,7 @@ export interface IUsers {
 
 export interface IFILE {
   name: string
-  arrayBuffer:Function
+  arrayBuffer: Function
 }
 export interface IPARAMS {
   params: { id: string }

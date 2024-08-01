@@ -12,7 +12,10 @@ type ButtonProps = {
   React.PropsWithChildren
 export function Button(props: ButtonProps) {
   const { link, variant, children, ...other } = props
-  const styles = ["h-3xl px-4 rounded-lg font-semibold flex items-center justify-center", other.className]
+  const styles = [
+    "h-3xl px-4 rounded-lg font-semibold flex items-center justify-center",
+    other.className,
+  ]
 
   switch (variant) {
     case "secondary":

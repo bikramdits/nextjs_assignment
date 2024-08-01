@@ -34,8 +34,8 @@ export default function EditMovie({ params }: { params: { id: string } }) {
   if (getMovieState === ApiState.LOADING) {
     return (
       <LoadingUI>
-        <div className="col-span-2 bg-card animate-pulse min-h-[20rem] rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[24rem]" />
-        <div className="col-span-2 bg-card animate-pulse min-h-[10rem] rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[12rem]" />
+        <div className="col-span-2 min-h-[20rem] animate-pulse rounded-xl bg-card pb-4 sm:px-2 sm:pt-2 md:min-h-[24rem]" />
+        <div className="col-span-2 min-h-[10rem] animate-pulse rounded-xl bg-card pb-4 sm:px-2 sm:pt-2 md:min-h-[12rem]" />
       </LoadingUI>
     )
   }

@@ -41,13 +41,13 @@ const config: Config = {
         "7xl": "10rem", // 160px
       },
       borderRadius: {
-        'none': '0',
-        'sm': '.125rem', // 2px
-        DEFAULT: '.25rem', // 4px
-        'md': '.5rem', // 8px
-        'lg': '.625rem', // 10px
-        'xl': '.75rem', // 12px
-        'full': '9999px',
+        none: "0",
+        sm: ".125rem", // 2px
+        DEFAULT: ".25rem", // 4px
+        md: ".5rem", // 8px
+        lg: ".625rem", // 10px
+        xl: ".75rem", // 12px
+        full: "9999px",
       },
     },
   },

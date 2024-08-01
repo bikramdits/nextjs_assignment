@@ -5,14 +5,14 @@ import { UseFormRegister } from "react-hook-form"
 type InputProps = {
   error?: string
   containerStyles?: string
-  name: string,
+  name: string
   register: UseFormRegister<any>
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 export function Input(props: InputProps) {
   const { error, containerStyles, name, register, ...other } = props
   const styles = cn(
     "bg-input text-white rounded-lg h-2xl px-4 outline-none border border-transparent active:border-input",
-    error ? 'border-error text-error' : '',
+    error ? "border-error text-error" : "",
     props.className
   )
   return (

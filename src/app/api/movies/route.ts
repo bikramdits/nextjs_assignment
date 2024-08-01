@@ -7,13 +7,11 @@ import { NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
-import formidable from "formidable"
-import { IFILE } from "@/utils/types"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as File 
+    const file = formData.get("file") as unknown as File
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     let imageUrl
@@ -27,7 +25,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true })
       }
-      await writeFile(uploadDir+'/' + filename, buffer)
+      await writeFile(uploadDir + "/" + filename, buffer)
     }
 
     const payload = {
@@ -51,16 +49,16 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
   try {
     const query = req.nextUrl.searchParams
     const id = query.get("id")
-    console.log({objectId: id});
-    
+    console.log({ objectId: id })
+
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as File 
-    const file_url = formData.get("file_url"); 
+    const file = formData.get("file") as unknown as File
+    const file_url = formData.get("file_url")
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     const poster = formData.get("poster")
     // const body = await req.json()
-    let imageUrl = file_url;
+    let imageUrl = file_url
 
     if (file) {
       const buffer = Buffer.from(await file.arrayBuffer())

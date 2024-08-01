@@ -8,7 +8,9 @@ instance.interceptors.request.use((config) => {
   return config
 })
 
-export async function getRequest<Response>(url: string): Promise<AxiosResponse<Response>> {
+export async function getRequest<Response>(
+  url: string
+): Promise<AxiosResponse<Response>> {
   return await instance.get(url)
 }
 

@@ -11,7 +11,7 @@ export function LogoutAction() {
   return (
     <button
       onClick={logout}
-      className="gap-sm flex text-base font-semibold text-white"
+      className="flex gap-sm text-base font-semibold text-white"
     >
       <span className="hidden md:inline-block">Logout</span>
       <Image src={"/icons/logout.svg"} alt="logout" height={24} width={24} />

@@ -23,10 +23,14 @@ export function Select(props: SelectProps) {
     <div className={cn("flex flex-col", containerStyles)}>
       <select className={styles} {...other} {...register(name)}>
         {options.map((opt) => {
-          return <option value={opt.value}>{opt.label}</option>
+          return (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          )
         })}
       </select>
-      <p className="text-2xs text-error ml-1.5">{error}</p>
+      <p className="ml-1.5 text-2xs text-error">{error}</p>
     </div>
   )
 }

@@ -38,7 +38,7 @@ const signInSchema = Yup.object().shape({
 })
 
 export default function SignIn() {
-  const router = useRouter();
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -56,8 +56,8 @@ export default function SignIn() {
       })
 
       if (res.data.token) {
-        setCookie(appConstants.AUTH_COOKIE, res.data.token);
-        router.replace('/')
+        setCookie(appConstants.AUTH_COOKIE, res.data.token)
+        router.replace("/")
       }
     } catch (e: any) {
       console.log("ERROR MESSAGE", e)

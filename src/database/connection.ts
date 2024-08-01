@@ -8,11 +8,7 @@ async function dbConnect() {
   }
 
   try {
-    const db = await mongoose.connect(env.mongo_url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 50000000,
-    })
+    const db = await mongoose.connect(env.mongo_url, {})
 
     connection = db.connections[0]
   } catch (error: any) {

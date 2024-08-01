@@ -11,12 +11,15 @@ import { env } from "@/utils/env"
 
 export const POST = async (req: NextRequest) => {
   try {
-    const {email, password} = await req.json()
-    const user = await Users.findOne({ email  });
+    const { email, password } = await req.json()
+    const user = await Users.findOne({ email })
 
     // If No user exists
-    if(!user){
-      return SendResponse({message:RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND}, StatusCodes.NOT_FOUND)
+    if (!user) {
+      return SendResponse(
+        { message: RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND },
+        StatusCodes.NOT_FOUND
+      )
     }
 
     // Comparing Password
@@ -40,8 +43,8 @@ export const POST = async (req: NextRequest) => {
       StatusCodes.UNAUTHORIZED
     )
   } catch (error) {
-    const e = error as Error;
-      return SendResponse(
+    const e = error as Error
+    return SendResponse(
       { message: e.message },
       StatusCodes.INTERNAL_SERVER_ERROR
     )
