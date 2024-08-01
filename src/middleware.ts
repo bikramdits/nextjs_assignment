@@ -13,12 +13,17 @@ export function middleware(req: NextRequest) {
   
   if (req.nextUrl.pathname.startsWith('/movies')) {
     console.log("Running for CLIENT");
-    return ProtectPages(req);
+    return AuthenticatedRoutes(req);
+  }
+
+  if (req.nextUrl.pathname.startsWith('/signin')) {
+    console.log("Running for CLIENT");
+    return UnAuthenticatedRoutes(req);
   }
 }
 
 export const config = {
-  matcher: ['/movies/:path*', "/api/movies/:path*"],
+  matcher: ['/:path*', "/api/movies/:path*"],
 }
 
 function ProtectApiRoute(req: NextRequest) {
@@ -50,10 +55,18 @@ function ProtectApiRoute(req: NextRequest) {
   return NextResponse.next()
 }
 
-function ProtectPages(req: NextRequest) {
+function AuthenticatedRoutes(req: NextRequest) {
   if (req.cookies.has(appConstants.AUTH_COOKIE)) {
     return NextResponse.next()
   }
 
   return NextResponse.redirect(new URL('/signin', req.url))
+}
+
+function UnAuthenticatedRoutes(req: NextRequest) {
+  if (req.cookies.has(appConstants.AUTH_COOKIE)) {
+    return NextResponse.redirect(new URL('/movies', req.url))
+  }
+
+  return NextResponse.next()
 }

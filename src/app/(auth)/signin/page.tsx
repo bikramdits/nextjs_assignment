@@ -8,6 +8,7 @@ import { postRequest } from "@/utils/api-client"
 import { appConstants, setCookie } from "@/utils"
 import { AuthRequest, AuthResponse } from "@/types/user"
 import { toast } from "react-hot-toast"
+import { AxiosError } from "axios"
 
 enum Fields {
   EMAIL = "email",
@@ -57,7 +58,7 @@ export default function SignIn() {
       }
     } catch (e: any) {
       console.log("ERROR MESSAGE", e)
-      toast.error(e.message)
+      toast.error(e.response.data.message)
     }
   }
   return (

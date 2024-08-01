@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
 
     // If No user exists
     if(!user){
-      return SendResponse({message:RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND}, StatusCodes.OK)
+      return SendResponse({message:RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND}, StatusCodes.NOT_FOUND)
     }
 
     // Comparing Password
