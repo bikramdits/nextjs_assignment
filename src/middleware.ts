@@ -6,38 +6,30 @@ import { jwtVerify } from "jose"
 import { appConstants } from "./utils"
 import { env } from "./utils/env"
 
-const protected_routes = [
-  "/movies"
-]
+const protected_routes = ["/movies"]
 
-const protected_apis = [
-  "/api/movies"
-]
+const protected_apis = ["/api/movies"]
 
-const publicRoutes = [
-  "/signin"
-]
+const publicRoutes = ["/signin"]
 export async function middleware(req: NextRequest) {
-  console.log("Running Middleware for - ", req.nextUrl.pathname);
-  console.log("Running Middleware for - ", req.url);
-  
-  if (protected_apis.includes(req.nextUrl.pathname)) {
-    return await authenticatedApiRoutes(req)
+  console.log("Running Middleware for - ", req.nextUrl.pathname)
+  console.log("Running Middleware for - ", req.url)
+
+  if (startsWithAny(req.nextUrl.pathname, protected_apis)) {
+    // return await authenticatedApiRoutes(req)
   }
-  
-  if (protected_routes.includes(req.nextUrl.pathname)) {
+
+  if (startsWithAny(req.nextUrl.pathname, protected_routes)) {
     return authenticatedRoutes(req)
   }
 
-  if (publicRoutes.includes(req.nextUrl.pathname)) {
+  if (startsWithAny(req.nextUrl.pathname, publicRoutes)) {
     return unAuthenticatedRoutes(req)
   }
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 }
 
 async function authenticatedApiRoutes(req: NextRequest) {
@@ -47,10 +39,13 @@ async function authenticatedApiRoutes(req: NextRequest) {
   }
 
   try {
-    const token = req.cookies.get(appConstants.AUTH_COOKIE)?.value;
-    const secretKey = new TextEncoder().encode(env.secret_key);
-    console.log({token, cookie: req.cookies.has(appConstants.AUTH_COOKIE), all: req.cookies.getAll()});
-    
+    const token = req.cookies.get(appConstants.AUTH_COOKIE)?.value
+    const secretKey = new TextEncoder().encode(env.secret_key)
+    console.log({
+      token,
+      cookie: req.cookies.has(appConstants.AUTH_COOKIE),
+      all: req.cookies.getAll(),
+    })
 
     if (!token) {
       return NextResponse.json(unauthError, {
@@ -80,4 +75,13 @@ function unAuthenticatedRoutes(req: NextRequest) {
   }
 
   return NextResponse.next()
+}
+
+function startsWithAny(path: string, stringList: string[]) {
+  for (let s of stringList) {
+    if (path.startsWith(s)) {
+      return true
+    }
+  }
+  return false
 }

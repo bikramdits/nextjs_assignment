@@ -1,11 +1,15 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { Button, DropImage, Input } from "./ui"
-import { IMovie } from "@/types/movies"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import { toast } from "react-hot-toast"
+import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
+import { yupResolver } from "@hookform/resolvers/yup"
+
+import { Button, DropImage, Input, Select } from "./ui"
+import { IMovie } from "@/types/movies"
+import { postRequest, updateRequest } from "@/utils/api-client"
+import { getOptionsTillYear } from "@/utils"
 
 // Fields
 enum Fields {
@@ -18,7 +22,7 @@ enum Fields {
 export type MovieFormFields = {
   [Fields.TITLE]: string
   [Fields.YEAR]: string
-  [Fields.IMAGE]: File
+  [Fields.IMAGE]: File | string
 }
 
 // Form Schema
@@ -30,27 +34,35 @@ const movieFormSchema = Yup.object().shape({
   [Fields.YEAR]: Yup.string()
     .required("Year is required")
     .matches(/^[0-9]{4}$/, "Year must be a 4-digit number"),
-  [Fields.IMAGE]: Yup.mixed<File>()
+  [Fields.IMAGE]: Yup.mixed<File | string>()
     .required("Poster Image is required")
-    .test(
-      "fileSize",
-      "File is too large",
-      (value) => value && value.size <= 1024 * 1024 // 1MB
-    )
-    .test(
-      "fileType",
-      "Unsupported File Format",
-      (value) =>
+    .test("fileSize", "File is too large", (value) => {
+      if (typeof value === "string") {
+        return true
+      }
+
+      console.log("Validation Schema - ", 'Passed');
+      if (value instanceof File) {
+        return value && value.size <= 1024 * 1024 // 1MB
+      }
+      return false
+    })
+    .test("fileType", "Unsupported File Format", (value) => {
+      if (typeof value === "string") {
+        return true
+      }
+
+      return (
         value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-    ),
+      )
+    }),
 })
 
 type MovieFormProps = {
   movie?: IMovie
-  onCreateEdit: (movie: Partial<IMovie>) => void
 }
-export function MovieForm({ movie, onCreateEdit }: MovieFormProps) {
-  const isEdit = !!movie
+export function MovieForm({ movie }: MovieFormProps) {
+  const isEdit = !!movie;
   const router = useRouter()
   const {
     register,
@@ -63,17 +75,72 @@ export function MovieForm({ movie, onCreateEdit }: MovieFormProps) {
     resolver: yupResolver(movieFormSchema),
     defaultValues: {
       [Fields.TITLE]: movie?.title || "",
+      [Fields.IMAGE]: movie?.poster || "",
       [Fields.YEAR]: movie?.publishingYear?.toString() || "",
     },
   })
 
   const onSubmit = (data: MovieFormFields) => {
-    onCreateEdit({
-      title: data[Fields.TITLE],
-      poster: data[Fields.IMAGE] as File,
-      publishingYear: +data[Fields.YEAR],
-    })
-    reset()
+    if (movie) {
+      onMovieEdit({
+        ...movie,
+        title: data[Fields.TITLE],
+        publishingYear: +data[Fields.YEAR],
+        poster: data[Fields.IMAGE],
+      })
+    } else {
+      onMovieCreate({
+        title: data[Fields.TITLE],
+        publishingYear: +data[Fields.YEAR],
+        poster: data[Fields.IMAGE],
+      })
+    }
+  }
+
+  const onMovieEdit = async (movie: Partial<IMovie>) => {
+    try {
+      const formData = new FormData()
+      if (typeof movie.poster === "string") {
+        formData.append("file_url", movie.poster as string)
+      } else {
+        formData.append("file", movie.poster as File)
+      }
+
+      formData.append("title", movie.title as string)
+      formData.append(
+        "publishingYear",
+        movie.publishingYear?.toString() as string
+      )
+
+      await updateRequest(`/movies?id=${movie._id}`, formData, {
+        "Content-Type": "multipart/form-data; boundary=12345",
+      })
+      toast.success("Movie Updated successfully!");
+      router.push('/')
+    } catch (e: any) {
+      toast.error(e.response.data.message)
+    }
+  }
+
+  const onMovieCreate = async (movie: Partial<IMovie>) => {
+    try {
+      const formData = new FormData()
+      formData.append("file", movie.poster as File)
+      formData.append("title", movie.title as string)
+      formData.append(
+        "publishingYear",
+        movie.publishingYear?.toString() as string
+      )
+
+      await postRequest("/movies", formData, {
+        "Content-Type": "multipart/form-data; boundary=12345",
+      })
+      toast.success("Movie Created successfully!");
+      router.push('/');
+      reset()
+    } catch (e: any) {
+      toast.error(e.response.data.message)
+    }
   }
 
   const imageFile = movie?.poster ?? getValues(Fields.IMAGE)
@@ -109,9 +176,8 @@ export function MovieForm({ movie, onCreateEdit }: MovieFormProps) {
           disabled={isSubmitting}
           register={register}
         />
-        <Input
-          placeholder="Publish Year"
-          type="number"
+        <Select
+        options={getOptionsTillYear()}
           containerStyles="w-full md:w-auto"
           error={errors[Fields.YEAR]?.message}
           name={Fields.YEAR}
