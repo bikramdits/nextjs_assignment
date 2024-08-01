@@ -58,7 +58,7 @@ async function authenticatedApiRoutes(req: NextRequest) {
       })
     }
 
-    req.user = await jwtVerify(token, secretKey)
+    (req as any).user = await jwtVerify(token, secretKey)
   } catch (err) {
     return NextResponse.json(unauthError, { status: StatusCodes.UNAUTHORIZED })
   }

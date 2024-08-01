@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
+import formidable from "formidable"
+import { IFILE } from "@/utils/types"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -53,13 +55,14 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     const file = formData.get("file") as unknown as File 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
+    const poster = formData.get("poster")
     // const body = await req.json()
     let imageUrl
 
     if (file) {
       const buffer = Buffer.from(await file.arrayBuffer())
       const filename = file.name
-      imageUrl = process.env.IMAGE_PATH  as unknown as string + filename
+      imageUrl = (process.env.IMAGE_PATH as unknown as string) + filename
       const uploadDir = path.join(process.cwd(), "public", "uploads")
 
       // Ensure the upload directory exists
@@ -68,14 +71,13 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
       }
       await writeFile(uploadDir + filename, buffer)
     }
-
     const payload = {
-      poster: imageUrl ?? null,
+      poster: imageUrl ?? poster ?? null,
       id,
       publishingYear,
-      title
+      title,
     }
-    const movies = await Movies.findByIdAndUpdate(payload)
+    const movies = await Movies.findByIdAndUpdate(id,payload)
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {

@@ -11,4 +11,10 @@ export const RESPONSE_MESSAGES = {
     UNAUTHORIZED: "unauthorized",
     FILE_NOT_RECEIVED: "File not received",
   },
+  MOVIES:{
+    MOVIE_NOT_FOUND:"Movie not found"
+  },
+  LOGOUT:{
+    YOU_HAVE_BEEN_LOGGED_OUT:"You have been logged out"
+  }
 }
