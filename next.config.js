@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost", "m.media-amazon.com"],
+    domains: ["52.90.18.248/", "m.media-amazon.com"],
   },
   reactStrictMode: false,
   async redirects() {
