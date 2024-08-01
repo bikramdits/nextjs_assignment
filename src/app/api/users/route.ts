@@ -4,7 +4,6 @@ import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
-import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest, NextResponse } from "next/server"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
