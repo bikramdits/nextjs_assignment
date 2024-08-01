@@ -13,7 +13,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {
-    
     return SendResponse(
       { message: RESPONSE_MESSAGES.COMMON.INVALID_REQUEST },
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -31,7 +30,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {
-    const e = error as Error;
+    const e = error as Error
     return SendResponse(
       { message: e?.message },
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -55,7 +54,7 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
       StatusCodes.OK
     )
   } catch (error) {
-    const e = error as Error;
+    const e = error as Error
     return SendResponse(
       { message: e?.message },
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -68,28 +67,25 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const query = req.nextUrl.searchParams
     let limit = query.get("limit") as unknown as number
     let page = query.get("page") as unknown as number
-    // limit= +limit |10
-    // page= +page | 1
-    const movies = await Movies.find().limit(limit)
-  // Get the page number and limit from the query parameters
-   page = page || 1;
-   limit = limit || 10;
+    page = +page || 1
+    limit = +limit || 10
 
-  // Calculate the offset
-  const offset = (page - 1) * limit;
+    // Calculate the offset
+    const offset = (page - 1) * limit
 
+    const movies = await Movies.find({})
+      .sort({ createdAt: -1 }) // Sort by latest first
+      .skip(offset)
+      .limit(limit)
+      .exec()
+    const totalItems = await Movies.countDocuments()
+    const totalPages = Math.ceil(totalItems / limit)
 
-    const users = await Movies.find({})
-    .sort({ createdAt: -1 }) // Sort by latest first
-    .skip(offset)
-    .limit(limit)
-    .exec();
-    const totalItems =  await Movies.countDocuments()
-    const totalPages = Math.ceil(totalItems/limit);
-
-    return SendResponse({users,totalItems,currentPage:page,limit,totalPages}, StatusCodes.OK) 
+    return SendResponse(
+      { movies, totalItems, currentPage: page, limit, totalPages },
+      StatusCodes.OK
+    )
   } catch (error) {
-   
     return SendResponse(
       { message: RESPONSE_MESSAGES.COMMON.INVALID_REQUEST },
       StatusCodes.INTERNAL_SERVER_ERROR
