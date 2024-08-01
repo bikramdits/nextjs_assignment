@@ -9,6 +9,7 @@ import { appConstants, setCookie } from "@/utils"
 import { AuthRequest, AuthResponse } from "@/types/user"
 import { toast } from "react-hot-toast"
 import { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
 
 enum Fields {
   EMAIL = "email",
@@ -37,6 +38,7 @@ const signInSchema = Yup.object().shape({
 })
 
 export default function SignIn() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -54,7 +56,8 @@ export default function SignIn() {
       })
 
       if (res.data.token) {
-        setCookie(appConstants.AUTH_COOKIE, res.data.token)
+        setCookie(appConstants.AUTH_COOKIE, res.data.token);
+        router.replace('/')
       }
     } catch (e: any) {
       console.log("ERROR MESSAGE", e)

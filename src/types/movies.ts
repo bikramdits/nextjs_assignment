@@ -1,4 +1,5 @@
 export interface IMovie {
+  _id?: string;
   title: string
   publishingYear: number
   poster: string | File
@@ -13,4 +14,11 @@ export interface IMoviesResponse {
   currentPage: number
   limit: number
   totalPages: number
+}
+
+export enum ApiState {
+  LOADING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
+  IDLE = "idle",
 }

@@ -25,7 +25,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true })
       }
-      await writeFile(uploadDir + filename, buffer)
+      await writeFile(uploadDir+'/' + filename, buffer)
     }
 
     const payload = {
@@ -49,12 +49,15 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
   try {
     const query = req.nextUrl.searchParams
     const id = query.get("id")
+    console.log({objectId: id});
+    
     const formData = await req.formData()
     const file = formData.get("file") as unknown as File 
+    const file_url = formData.get("file_url"); 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     // const body = await req.json()
-    let imageUrl
+    let imageUrl = file_url;
 
     if (file) {
       const buffer = Buffer.from(await file.arrayBuffer())
@@ -75,7 +78,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
       publishingYear,
       title
     }
-    const movies = await Movies.findByIdAndUpdate(payload)
+    const movies = await Movies.findByIdAndUpdate(id, payload)
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {

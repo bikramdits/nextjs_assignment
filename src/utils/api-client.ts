@@ -27,7 +27,7 @@ export async function updateRequest<Response, Request>(
   data: Request,
   headers?: any
 ) {
-  return await instance.patch<any, Response, Request>(url, data, {
+  return await instance.put<any, Response, Request>(url, data, {
     headers,
   })
 }
