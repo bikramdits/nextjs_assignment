@@ -13,6 +13,7 @@ export default function EditMovie({ params }: { params: { id: string } }) {
   const [getMovieState, setGetMovieState] = useState<ApiState>(ApiState.LOADING)
 
   useEffect(() => {
+    if (!movieId) return
     const getMovieById = async () => {
       try {
         setGetMovieState(ApiState.LOADING)
