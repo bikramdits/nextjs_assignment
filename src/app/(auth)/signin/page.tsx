@@ -4,6 +4,11 @@ import { Button, Checkbox, Input } from "@/components/ui"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import { postRequest } from "@/utils/api-client"
+import { appConstants, setCookie } from "@/utils"
+import { AuthRequest, AuthResponse } from "@/types/user"
+import { toast } from "react-hot-toast"
+import { AxiosError } from "axios"
 
 enum Fields {
   EMAIL = "email",
@@ -36,14 +41,28 @@ export default function SignIn() {
     register,
     handleSubmit,
     formState: { errors },
+    control: { _formState },
   } = useForm<LoginForm>({
     resolver: yupResolver(signInSchema),
-    reValidateMode: "onBlur",
   })
 
-  const onSubmit = (data: LoginForm) => console.log(data)
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const res = await postRequest<AuthResponse, AuthRequest>("users/login", {
+        email: data[Fields.EMAIL],
+        password: data[Fields.PASSWORD],
+      })
+
+      if (res.data.token) {
+        setCookie(appConstants.AUTH_COOKIE, res.data.token)
+      }
+    } catch (e: any) {
+      console.log("ERROR MESSAGE", e)
+      toast.error(e.response.data.message)
+    }
+  }
   return (
-    <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center">
+    <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[30rem]">
       <h1 className="text-h1 font-semibold text-white">Sign In</h1>
 
       <form
@@ -56,12 +75,15 @@ export default function SignIn() {
           containerStyles="w-full"
           name={Fields.EMAIL}
           register={register}
+          disabled={_formState.isSubmitting}
         />
         <Input
           placeholder="Password"
+          type="password"
           error={errors?.[Fields.PASSWORD]?.message}
           name={Fields.PASSWORD}
           register={register}
+          disabled={_formState.isSubmitting}
         />
 
         <div className="flex items-center justify-center gap-x-2 text-white">
@@ -69,10 +91,13 @@ export default function SignIn() {
             label="Remember me"
             register={register}
             name={Fields.REMEMBER}
+            disabled={_formState.isSubmitting}
           />
         </div>
 
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={_formState.isSubmitting}>
+          {_formState.isSubmitting ? "Logging In..." : "Login"}
+        </Button>
       </form>
     </div>
   )

@@ -7,14 +7,11 @@ import { NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
-import formidable from 'formidable'
-import { IFILE } from "@/utils/types"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
-    // const getFile =  handler(req,res)
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as IFILE 
+    const file = formData.get("file") as unknown as File 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     let imageUrl
@@ -53,7 +50,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     const query = req.nextUrl.searchParams
     const id = query.get("id")
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as IFILE 
+    const file = formData.get("file") as unknown as File 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     // const body = await req.json()
@@ -119,17 +116,13 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const query = req.nextUrl.searchParams
     let limit = query.get("limit") as unknown as number
     let page = query.get("page") as unknown as number
-    // limit= +limit |10
-    // page= +page | 1
-    const movies = await Movies.find().limit(limit)
-    // Get the page number and limit from the query parameters
-    page = page || 1
-    limit = limit || 10
+    page = +page || 1
+    limit = +limit || 10
 
     // Calculate the offset
     const offset = (page - 1) * limit
 
-    const users = await Movies.find({})
+    const movies = await Movies.find({})
       .sort({ createdAt: -1 }) // Sort by latest first
       .skip(offset)
       .limit(limit)
@@ -138,7 +131,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const totalPages = Math.ceil(totalItems / limit)
 
     return SendResponse(
-      { users, totalItems, currentPage: page, limit, totalPages },
+      { movies, totalItems, currentPage: page, limit, totalPages },
       StatusCodes.OK
     )
   } catch (error) {
