@@ -14,6 +14,9 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json()
 
     const user = await Users.findOne({ email: body.email}) as unknown as IUsers
+    if(!user){
+      return SendResponse({message:RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND}, StatusCodes.OK)
+    }
     const validPassword = bcrypt.compare(body.password, user.password)
     const secretKey: string = process.env.SECRET_KEY as string;
     const token = jwt.sign(
