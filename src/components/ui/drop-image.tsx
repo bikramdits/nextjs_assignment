@@ -3,34 +3,37 @@
 import Image from "next/image"
 import { ChangeEvent, DragEvent, useRef, useState } from "react"
 
-export function DropImage() {
+type DropImageProps = {
+  image: string
+  onImageChange: (image: File | undefined) => void
+}
+export function DropImage({ image, onImageChange }: DropImageProps) {
   const inputEl = useRef<HTMLInputElement>(null)
-  const [inputImg, setImg] = useState<File | undefined>(undefined)
 
   const onImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 0) {
       return
     }
 
-    setImg(e.target.files?.[0])
+    onImageChange(e.target.files?.[0])
   }
-  
+
   return (
     <div
       onDragOver={(e) => e.preventDefault()}
       className="relative flex h-full flex-col items-center justify-center rounded-lg border border-dashed border-white bg-input"
     >
-      {inputImg ? (
+      {image && image.length > 0 ? (
         <>
           <Image
-            src={URL.createObjectURL(inputImg)}
+            src={image}
             fill
             alt="add-image"
             className="rounded-[inherit]"
           />
 
           <button
-            onClick={() => setImg(undefined)}
+            onClick={() => onImageChange(undefined)}
             className="relative -top-4 left-4 mb-auto h-8 w-8 self-end rounded-full bg-error p-1"
           >
             <Image

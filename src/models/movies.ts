@@ -19,9 +19,9 @@ const MoviesSchema = new mongoose.Schema({
     default: false, 
   },
 }, {
-  timestamps: true, // Automatically manage createdAt and updatedAt
+  timestamps: true,
 });
 
-const movies = mongoose.model('User', MoviesSchema)
+const movies = mongoose.models.Movies || mongoose.model('Movies', MoviesSchema)
 export default movies;
 
