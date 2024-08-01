@@ -6,9 +6,10 @@ import { useForm } from "react-hook-form"
 import { useRouter } from "next/navigation"
 import { yupResolver } from "@hookform/resolvers/yup"
 
-import { Button, DropImage, Input } from "./ui"
+import { Button, DropImage, Input, Select } from "./ui"
 import { IMovie } from "@/types/movies"
 import { postRequest, updateRequest } from "@/utils/api-client"
+import { getOptionsTillYear } from "@/utils"
 
 // Fields
 enum Fields {
@@ -175,9 +176,8 @@ export function MovieForm({ movie }: MovieFormProps) {
           disabled={isSubmitting}
           register={register}
         />
-        <Input
-          placeholder="Publish Year"
-          type="number"
+        <Select
+        options={getOptionsTillYear()}
           containerStyles="w-full md:w-auto"
           error={errors[Fields.YEAR]?.message}
           name={Fields.YEAR}

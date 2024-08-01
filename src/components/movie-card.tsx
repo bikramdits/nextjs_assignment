@@ -5,7 +5,10 @@ import Link from "next/link"
 export function MovieCard(movie: IMovie) {
   return (
     <>
-      <Link href={`/movies/edit/${movie._id}`} className="bg-card hover:bg-card/55 group flex min-h-[23rem] cursor-pointer flex-col rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]">
+      <Link
+        href={`/movies/edit/${movie._id}`}
+        className="bg-card hover:bg-card/55 group flex min-h-[23rem] cursor-pointer flex-col rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]"
+      >
         <div className="relative flex-1 rounded-[inherit]">
           <Image
             src={movie.poster as string}
@@ -19,7 +22,10 @@ export function MovieCard(movie: IMovie) {
           <h6 className="text-h5 font-medium text-white group-hover:font-semibold">
             {movie.title}
           </h6>
-          <p className="text-sm text-white">{movie.publishingYear}</p>
+          <div className="flex justify-between">
+            <p className="text-sm text-white">{movie.publishingYear}</p>
+            <Image src={"/icons/edit.svg"} height={24} width={24} alt="Edit" />
+          </div>
         </div>
       </Link>
     </>
@@ -29,7 +35,7 @@ export function MovieCard(movie: IMovie) {
 export function MovieCardSkelton() {
   return (
     <>
-      <div className="bg-card animate-pulse min-h-[23rem] rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]" />
+      <div className="bg-card min-h-[23rem] animate-pulse rounded-xl pb-4 sm:px-2 sm:pt-2 md:min-h-[30rem]" />
     </>
   )
 }
