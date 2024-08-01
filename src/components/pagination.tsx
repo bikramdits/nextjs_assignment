@@ -1,23 +1,23 @@
 "use client"
 
-import { cn } from "@/utils"
+import { appConstants, cn } from "@/utils"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 
 type PaginationProps = {
   numberOfPages: number
 }
-const PAGE_PARAM = "pageNum"
+
 export function Pagination(props: PaginationProps) {
   const { numberOfPages } = props
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
-  const pageNum = params.get(PAGE_PARAM) || 1
+  const pageNum = params.get(appConstants.PAGINATION_PARAM) || 1
 
   const onPageChange = (pageNum: number) => {
     const newPage = pageNum > 0 ? pageNum.toString() : "1"
-    router.push(pathname + "?" + createQueryString(PAGE_PARAM, newPage))
+    router.push(pathname + "?" + createQueryString(appConstants.PAGINATION_PARAM, newPage))
   }
 
   const createQueryString = useCallback(

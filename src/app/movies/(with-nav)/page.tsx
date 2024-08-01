@@ -2,6 +2,7 @@
 
 import { EmptyState, MovieCard, Pagination } from "@/components"
 import { IMovie, IMoviesResponse } from "@/types/movies"
+import { appConstants } from "@/utils"
 import { getRequest } from "@/utils/api-client"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
@@ -11,7 +12,7 @@ type PageProps = {
 }
 
 export default function AppListPage({ searchParams }: PageProps) {
-  const page = searchParams.pageNum
+  const page = searchParams[appConstants.PAGINATION_PARAM]
   const [movies, setMovies] = useState<IMovie[]>([])
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function AppListPage({ searchParams }: PageProps) {
       {movies.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-3 xl:grid-cols-4">
           {movies.map((i) => (
-            <MovieCard key={i.title} />
+            <MovieCard key={i.title} {...i} />
           ))}
         </div>
       ) : (

@@ -7,14 +7,11 @@ import { NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
-import formidable from 'formidable'
-import { IFILE } from "@/utils/types"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
-    // const getFile =  handler(req,res)
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as IFILE 
+    const file = formData.get("file") as unknown as File 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     let imageUrl
@@ -53,7 +50,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     const query = req.nextUrl.searchParams
     const id = query.get("id")
     const formData = await req.formData()
-    const file = formData.get("file") as unknown as IFILE 
+    const file = formData.get("file") as unknown as File 
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     // const body = await req.json()

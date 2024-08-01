@@ -11,5 +11,6 @@ export function setCookie(name: string, value: string) {
 }
 
 export const appConstants={
+  PAGINATION_PARAM: "page",
   AUTH_COOKIE: "authorization"
 } 

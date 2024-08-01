@@ -1,7 +1,7 @@
 export interface IMovie {
   title: string
   publishingYear: number
-  poster: string
+  poster: string | File
   isDeleted: boolean
   createdAt?: Date
   updatedAt?: Date
