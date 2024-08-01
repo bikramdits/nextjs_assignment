@@ -17,7 +17,9 @@ export function Pagination(props: PaginationProps) {
 
   const onPageChange = (pageNum: number) => {
     const newPage = pageNum > 0 ? pageNum.toString() : "1"
-    router.push(pathname + "?" + createQueryString(appConstants.PAGINATION_PARAM, newPage))
+    router.push(
+      pathname + "?" + createQueryString(appConstants.PAGINATION_PARAM, newPage)
+    )
   }
 
   const createQueryString = useCallback(
@@ -30,6 +32,7 @@ export function Pagination(props: PaginationProps) {
     [params]
   )
 
+  const pages = Array.from({ length: numberOfPages }, (_, i) => i + 1)
   return (
     <div className="flex items-center justify-start gap-4">
       <button
@@ -42,18 +45,52 @@ export function Pagination(props: PaginationProps) {
         Prev
       </button>
 
-      <div className="flex gap-2">
-        {Array.from({ length: numberOfPages }, (_, i) => i + 1).map((num) => {
-          return (
-            <PageBlock
-              pageNum={num}
-              onClick={(num) => {
-                onPageChange(num)
-              }}
-              isSelected={num === +pageNum}
-              key={`${num}`}
-            />
-          )
+      <div className="flex max-w-[24rem] items-center gap-2 overflow-auto">
+        {pages.map((num) => {
+          if (num <= 5) {
+            return (
+              <PageBlock
+                pageNum={num}
+                onClick={(num) => {
+                  onPageChange(num)
+                }}
+                isSelected={num === +pageNum}
+                key={`${num}`}
+              />
+            )
+          }
+
+          if (num >= 6 && num <= numberOfPages - 2) {
+            if (num === +pageNum) {
+              return (
+                <PageBlock
+                  pageNum={num}
+                  onClick={(num) => {
+                    onPageChange(num)
+                  }}
+                  isSelected={num === +pageNum}
+                  key={`${num}`}
+                />
+              )
+            }
+
+            if (num < 10) {
+              return <div className="h-1 w-1 rounded-full bg-white" />
+            }
+          }
+
+          if (num > numberOfPages - 2) {
+            return (
+              <PageBlock
+                pageNum={num}
+                onClick={(num) => {
+                  onPageChange(num)
+                }}
+                isSelected={num === +pageNum}
+                key={`${num}`}
+              />
+            )
+          }
         })}
       </div>
 
@@ -80,7 +117,7 @@ function PageBlock({
   onClick: (pageNum: number) => void
 }) {
   const clsnm = cn(
-    "h-8 w-8 rounded-sm text-white font-bold",
+    "h-8 min-w-8 rounded-sm text-white font-bold px-1",
     isSelected ? "bg-primary" : "bg-card"
   )
   return (
