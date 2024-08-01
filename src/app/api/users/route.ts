@@ -40,9 +40,9 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
 
     return SendResponse(user, StatusCodes.OK)
   } catch (error) {
-    
+    const e = error as Error;
     return SendResponse(
-      { message: error?.message },
+      { message: e?.message },
       StatusCodes.INTERNAL_SERVER_ERROR
     )
   }
@@ -64,9 +64,9 @@ export const DELETE = async (req: NextRequest, res: NextResponse) => {
       StatusCodes.OK
     )
   } catch (error) {
-   
+    const e = error as Error;
     return SendResponse(
-      { message: error?.message },
+      { message: e?.message },
       StatusCodes.INTERNAL_SERVER_ERROR
     )
   }
