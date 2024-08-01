@@ -1,5 +1,6 @@
 import "@/database/connection"
 import Users from "@/models/user"
+import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
@@ -21,8 +22,8 @@ export const POST = async (req: NextRequest) => {
       token: token,
     }
     return SendResponse(resPayload, StatusCodes.OK)
-  } catch (err) {
-    return SendResponse(
+  } catch (error) {
+      return SendResponse(
       { message: err.message },
       StatusCodes.INTERNAL_SERVER_ERROR
     )
