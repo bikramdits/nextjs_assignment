@@ -1,8 +1,10 @@
 import "@/database/connection"
 import Users from "@/models/user"
+import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
+import { IUsers } from "@/utils/types"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { NextRequest } from "next/server"
@@ -11,19 +13,21 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json()
 
-    const user = await Users.findOne({ email: body.email})
+    const user = await Users.findOne({ email: body.email}) as unknown as IUsers
     const validPassword = bcrypt.compare(body.password, user.password)
+    const secretKey: string = process.env.SECRET_KEY as string;
     const token = jwt.sign(
       { _id: user._id, email: user?.email },
-      process.env.SECRET_KEY
+      secretKey
     )
     const resPayload = {
       token: token,
     }
     return SendResponse(resPayload, StatusCodes.OK)
-  } catch (err) {
-    return SendResponse(
-      { message: err.message },
+  } catch (error) {
+    const e = error as Error;
+      return SendResponse(
+      { message: e.message },
       StatusCodes.INTERNAL_SERVER_ERROR
     )
   }
