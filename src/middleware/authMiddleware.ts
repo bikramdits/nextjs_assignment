@@ -4,7 +4,8 @@ import StatusCodes from "@/utils/statusCodeEnum"
 import jwt from "jsonwebtoken"
 
 export default async (req: Request, res: Response, next: Function) => {
-  const authorization = req.headers.authorization
+  const headers = req.headers as unknown as {authorization :string}
+  const authorization = headers.authorization as unknown as string
 
   try {
     if (!authorization) {

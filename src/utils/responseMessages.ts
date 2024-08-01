@@ -9,5 +9,6 @@ export const RESPONSE_MESSAGES = {
   LOGIN: {
     USER_LOGIN: "User login succesfully",
     UNAUTHORIZED: "unauthorized",
+    FILE_NOT_RECEIVED: "File not received",
   },
 }

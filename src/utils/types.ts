@@ -6,3 +6,7 @@ export interface IUsers {
   password: string
   isDeleted: string
 }
+
+export  interface IFILE{
+    name:string
+} 

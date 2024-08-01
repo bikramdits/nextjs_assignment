@@ -22,6 +22,6 @@ const MoviesSchema = new mongoose.Schema({
   timestamps: true, // Automatically manage createdAt and updatedAt
 });
 
-const movies = mongoose.model('Movies', MoviesSchema)
+const movies = mongoose.models.Movies || mongoose.model('Movies', MoviesSchema)
 export default movies;
 
