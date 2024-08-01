@@ -1,5 +1,5 @@
 export interface IUsers {
-    _id:string
+  _id: string
   firstName: string
   lastName: string
   email: string
@@ -7,6 +7,9 @@ export interface IUsers {
   isDeleted: string
 }
 
-export  interface IFILE{
-    name:string
-} 
+export interface IFILE {
+  name: string
+}
+export interface IPARAMS {
+  params: { id: string }
+}
