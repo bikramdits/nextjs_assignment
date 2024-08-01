@@ -30,7 +30,7 @@ export function middleware(req: NextRequest) {
     const secretKey = new TextEncoder().encode(process.env.SECRET_KEY as string);
 
     const decoded = jwtVerify(token, secretKey);
-    req.user = decoded;
+    (req as any).user = decoded;
   } catch (err) {
     return NextResponse.json(
       {
