@@ -1,18 +1,46 @@
 import "@/database/connection"
 import Movies from "@/models/movies"
-import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
 import { NextRequest, NextResponse } from "next/server"
+import { writeFile } from "fs/promises"
+import path from "path"
+import * as fs from "fs"
+import formidable from 'formidable'
+import { IFILE } from "@/utils/types"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
-    const body = await req.json()
-    const movies = await Movies.create(body)
+    // const getFile =  handler(req,res)
+    const formData = await req.formData()
+    const file = formData.get("file") as unknown as IFILE 
+    const title = formData.get("title")
+    const publishingYear = formData.get("publishingYear")
+    let imageUrl
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const filename = file.name
+      imageUrl = process.env.IMAGE_PATH + filename
+      const uploadDir = path.join(process.cwd(), "public", "uploads")
+
+      // Ensure the upload directory exists
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true })
+      }
+      await writeFile(uploadDir + filename, buffer)
+    }
+
+    const payload = {
+      poster: imageUrl ?? null,
+      publishingYear,
+      title,
+    }
+    const movies = await Movies.create(payload)
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {
+    console.log(error)
     return SendResponse(
       { message: RESPONSE_MESSAGES.COMMON.INVALID_REQUEST },
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -24,9 +52,33 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
   try {
     const query = req.nextUrl.searchParams
     const id = query.get("id")
+    const formData = await req.formData()
+    const file = formData.get("file") as unknown as IFILE 
+    const title = formData.get("title")
+    const publishingYear = formData.get("publishingYear")
+    // const body = await req.json()
+    let imageUrl
 
-    const body = await req.json()
-    const movies = await Movies.findByIdAndUpdate(id, body)
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const filename = file.name
+      imageUrl = process.env.IMAGE_PATH  as unknown as string + filename
+      const uploadDir = path.join(process.cwd(), "public", "uploads")
+
+      // Ensure the upload directory exists
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true })
+      }
+      await writeFile(uploadDir + filename, buffer)
+    }
+
+    const payload = {
+      poster: imageUrl ?? null,
+      id,
+      publishingYear,
+      title
+    }
+    const movies = await Movies.findByIdAndUpdate(payload)
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {
