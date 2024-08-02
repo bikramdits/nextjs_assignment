@@ -8,7 +8,7 @@ import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
 import { IFILE } from "@/utils/types"
-import { movieSchema } from "./validation"
+import { movieSchema, updateMovieSchema } from "./validation"
 import { zodMessageHandler } from "@/utils/common"
 
 /**
@@ -120,7 +120,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     }
 
     // validating payload
-    const response = movieSchema.safeParse(body)
+    const response = updateMovieSchema.safeParse(body)
     // if get error
     if (!response.success) {
       // custom message for validation error
