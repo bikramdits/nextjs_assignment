@@ -1,4 +1,4 @@
-export interface IUsers {
+export interface IUSERS {
   _id: string
   firstName: string
   lastName: string
@@ -13,4 +13,10 @@ export interface IFILE {
 }
 export interface IPARAMS {
   params: { id: string }
+}
+
+export interface IMOVIES {
+    title: string
+    publishingYear:string
+
 }

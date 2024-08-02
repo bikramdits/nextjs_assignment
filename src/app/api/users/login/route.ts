@@ -1,10 +1,9 @@
 import "@/database/connection"
 import Users from "@/models/user"
-import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
-import { IUsers } from "@/utils/types"
+import { IUSERS } from "@/utils/types"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { NextRequest } from "next/server"
@@ -13,7 +12,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json()
 
-    const user = await Users.findOne({ email: body.email}) as unknown as IUsers
+    const user = await Users.findOne({ email: body.email}) as unknown as IUSERS
     if(!user){
       return SendResponse({message:RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND}, StatusCodes.OK)
     }

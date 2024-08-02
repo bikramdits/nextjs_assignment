@@ -5,22 +5,22 @@ const UsersSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: [true, "First name is required!"],
+      required: [false, "First name is required!"],
       trim: true,
     },
     lastName: {
       type: String,
-      required: [true, "Last name is required!"],
+      required: [false, "Last name is required!"],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, "email is required!"], // Email is not mandatory
+      required: [false, "email is required!"], // Email is not mandatory
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "password is required!"], // Password is not mandatory
+      required: [false, "password is required!"], // Password is not mandatory
       trim: true,
     },
     isDeleted: {
@@ -34,7 +34,7 @@ const UsersSchema = new mongoose.Schema(
 )
 UsersSchema.pre("save", async function (next) {
   try {
-    const savedPassword = await bcrypt.hash(this.password, 5)
+    const savedPassword = await bcrypt.hash(this.password as unknown as any, 5)
     this.password = savedPassword
     next()
   } catch (error){
@@ -42,20 +42,6 @@ UsersSchema.pre("save", async function (next) {
   }
 })
 
-// UsersSchema.pre('findOneAndUpdate', async function (next) {
-//     try {
-//         const update = this.getUpdate();
-
-//         if (update.password) {
-//             const hashed = await bcrypt.hash(update.password, 10);
-//             update.password = hashed;
-//         }
-
-//         next();
-//     } catch (err) {
-//         next(err);
-//     }
-// });
 
 const Users = mongoose.models.User ||mongoose.model("User", UsersSchema)
 

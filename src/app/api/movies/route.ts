@@ -7,8 +7,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { writeFile } from "fs/promises"
 import path from "path"
 import * as fs from "fs"
-import formidable from "formidable"
 import { IFILE } from "@/utils/types"
+import { movieSchema } from "./validation"
+import { zodMessageHandler } from "@/utils/common"
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
@@ -17,6 +18,17 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     const file = formData.get("file") as unknown as IFILE
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
+
+    const body = {
+      title: title ? title : undefined,
+      publishingYear: publishingYear ? +publishingYear : undefined,
+    }
+    const response = movieSchema.safeParse(body)
+    if (!response.success) {
+      // console.log(response?.error)
+      const message = zodMessageHandler(response?.error?.issues)
+      return SendResponse({ message }, StatusCodes.BAD_REQUEST)
+    }
     let imageUrl
     if (file) {
       const buffer = Buffer.from(await file.arrayBuffer())
@@ -57,7 +69,16 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     const title = formData.get("title")
     const publishingYear = formData.get("publishingYear")
     const poster = formData.get("poster")
-    // const body = await req.json()
+    const body = {
+      title: title ? title : undefined,
+      publishingYear: publishingYear ? +publishingYear : undefined,
+    }
+    const response = movieSchema.safeParse(body)
+    if (!response.success) {
+      // console.log(response?.error)
+      const message = zodMessageHandler(response?.error?.issues)
+      return SendResponse({ message }, StatusCodes.BAD_REQUEST)
+    }
     let imageUrl
 
     if (file) {
@@ -78,7 +99,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
       publishingYear,
       title,
     }
-    const movies = await Movies.findByIdAndUpdate(id,payload)
+    const movies = await Movies.findByIdAndUpdate(id, payload)
 
     return SendResponse(movies, StatusCodes.OK)
   } catch (error) {

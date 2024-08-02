@@ -8,7 +8,7 @@ const connection = {};
 	}
 
 	try {
-		const db = await mongoose.connect(process.env.MONGO_URL, {
+		const db = await mongoose.connect(process.env.MONGO_URL as unknown as string, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
@@ -17,6 +17,7 @@ const connection = {};
 
 	
 	} catch (error) {
+		const e =error as unknown as Error
 		console.log(error.message);
 	}
 })();

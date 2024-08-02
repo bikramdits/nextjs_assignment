@@ -1,15 +1,22 @@
 import "@/database/connection"
 import Users from "@/models/user"
-import logger from "@/utils/logger"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
-import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest, NextResponse } from "next/server"
+import { schema } from "./validation"
+import { zodMessageHandler } from "@/utils/common"
+
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   try {
     const body = await req.json()
+    const response = schema.safeParse(body);
+    if (!response.success) {
+      // console.log(response?.error)
+      const message = zodMessageHandler(response?.error?.issues)
+      return SendResponse({ message }, StatusCodes.BAD_REQUEST)
+    }
     const { email } = body
     const findExistingEmail = await Users.findOne({ email }).lean()
     if (findExistingEmail) {
@@ -22,7 +29,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     return SendResponse(user, StatusCodes.OK)
   } catch (error) {
-    
+    console.log(error)
     return SendResponse(
       { message: RESPONSE_MESSAGES.COMMON.INVALID_REQUEST },
       StatusCodes.INTERNAL_SERVER_ERROR
@@ -36,6 +43,11 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     const id = query.get("id")
 
     const body = await req.json()
+    const response = schema.safeParse(body);
+    if (!response.success) {
+      const message = zodMessageHandler(response?.error?.issues)
+      return SendResponse({ message }, StatusCodes.BAD_REQUEST)
+    }
     const user = await Users.findByIdAndUpdate(id, body)
 
     return SendResponse(user, StatusCodes.OK)
