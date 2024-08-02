@@ -143,10 +143,9 @@ export function MovieForm({ movie }: MovieFormProps) {
     }
   }
 
-  const imageFile = movie?.poster ?? getValues(Fields.IMAGE)
   const dropImgJsx = (
     <DropImage
-      image={imageFile}
+      image={getValues(Fields.IMAGE)}
       error={errors[Fields.IMAGE]?.message}
       onImageChange={(image) => {
         setValue(Fields.IMAGE, image as File, {

@@ -14,7 +14,7 @@ export function getOptionsTillYear() {
   const years = []
 
   for (let year = 1900; year <= currentYear; year++) {
-    years.push({ label: year.toString(), value: year.toString() })
+    years.unshift({ label: year.toString(), value: year.toString() })
   }
 
   return years

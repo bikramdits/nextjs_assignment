@@ -1,8 +1,8 @@
-import type { Metadata } from "next"
-import { Montserrat } from "next/font/google"
 import "@/styles/globals.css"
 import Image from "next/image"
+import type { Metadata } from "next"
 import { Toaster } from "react-hot-toast"
+import { Montserrat } from "next/font/google"
 
 const font = Montserrat({ subsets: ["latin"], weight: ["400", "600", "800"] })
 
@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   icons: "/icons/favicon.ico",
 }
 
-export default function RootLayout({ children }: React.PropsWithChildren) {
+export default function RootLayout({
+  children,
+}: React.PropsWithChildren<{ params: { locale: string } }>) {
+
   return (
     <html lang="en">
       <body

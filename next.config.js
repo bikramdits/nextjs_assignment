@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   images: {
-    domains: ["52.90.18.248"],
+    domains: ["52.90.18.248", "localhost"],
   },
-  reactStrictMode: false,
   async redirects() {
     return [
       {
@@ -15,4 +15,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = nextConfig;

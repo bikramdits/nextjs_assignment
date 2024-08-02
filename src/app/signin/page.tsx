@@ -8,7 +8,6 @@ import { postRequest } from "@/utils/api-client"
 import { appConstants, setCookie } from "@/utils"
 import { AuthRequest, AuthResponse } from "@/types/user"
 import { toast } from "react-hot-toast"
-import { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
 
 enum Fields {
@@ -65,7 +64,7 @@ export default function SignIn() {
     }
   }
   return (
-    <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[30rem]">
+    <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[20rem]">
       <h1 className="text-h1 font-semibold text-white">Sign In</h1>
 
       <form
