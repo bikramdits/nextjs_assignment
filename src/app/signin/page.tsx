@@ -9,6 +9,7 @@ import { appConstants, setCookie } from "@/utils"
 import { AuthRequest, AuthResponse } from "@/types/user"
 import { toast } from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import {useTranslations} from 'next-intl';
 
 enum Fields {
   EMAIL = "email",
@@ -37,6 +38,7 @@ const signInSchema = Yup.object().shape({
 })
 
 export default function SignIn() {
+  const content = useTranslations('signIn');
   const router = useRouter()
   const {
     register,
@@ -65,14 +67,14 @@ export default function SignIn() {
   }
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[20rem]">
-      <h1 className="text-h1 font-semibold text-white">Sign In</h1>
+      <h1 className="text-h1 font-semibold text-white">{content('title')}</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full flex-col gap-6"
       >
         <Input
-          placeholder="Email"
+          placeholder={content("email")}
           error={errors?.[Fields.EMAIL]?.message}
           containerStyles="w-full"
           name={Fields.EMAIL}
@@ -80,7 +82,7 @@ export default function SignIn() {
           disabled={_formState.isSubmitting}
         />
         <Input
-          placeholder="Password"
+          placeholder={content("password")}
           type="password"
           error={errors?.[Fields.PASSWORD]?.message}
           name={Fields.PASSWORD}
@@ -90,7 +92,7 @@ export default function SignIn() {
 
         <div className="flex items-center justify-center gap-x-2 text-white">
           <Checkbox
-            label="Remember me"
+            label={content('remember')}
             register={register}
             name={Fields.REMEMBER}
             disabled={_formState.isSubmitting}
@@ -98,7 +100,7 @@ export default function SignIn() {
         </div>
 
         <Button type="submit" disabled={_formState.isSubmitting}>
-          {_formState.isSubmitting ? "Logging In..." : "Login"}
+          {_formState.isSubmitting ? content("loading") : content("login")}
         </Button>
       </form>
     </div>

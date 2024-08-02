@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/utils"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { ChangeEvent } from "react"
 
@@ -10,6 +11,7 @@ type DropImageProps = {
   onImageChange: (image: File | undefined) => void
 }
 export function DropImage({ image, error, onImageChange }: DropImageProps) {
+  const content = useTranslations("movieForm")
   const onImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 0) {
       return
@@ -67,7 +69,7 @@ export function DropImage({ image, error, onImageChange }: DropImageProps) {
               height={"16"}
               alt="add-image"
             />
-            <p className="text-sm ">Drop an image here</p>
+            <p className="text-sm ">{content("form.Imagetext")}</p>
           </div>
         </>
       )}

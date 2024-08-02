@@ -10,6 +10,7 @@ import { Button, DropImage, Input, Select } from "./ui"
 import { IMovie } from "@/types/movies"
 import { postRequest, updateRequest } from "@/utils/api-client"
 import { getOptionsTillYear } from "@/utils"
+import { useTranslations } from "next-intl"
 
 // Fields
 enum Fields {
@@ -63,6 +64,7 @@ type MovieFormProps = {
 }
 export function MovieForm({ movie }: MovieFormProps) {
   const isEdit = !!movie
+  const content = useTranslations("movieForm")
   const router = useRouter()
   const {
     register,
@@ -161,14 +163,14 @@ export function MovieForm({ movie }: MovieFormProps) {
       className="grid grid-cols-1 gap-12 md:grid-cols-2"
     >
       <h2 className="mb-12 text-h2 font-semibold text-white md:col-span-2">
-        {isEdit ? "Edit" : "Create a new movie"}
+        {isEdit ? content("editTitle") : content("addTitle")}
       </h2>
 
       <div className="hidden min-h-96 md:inline-block">{dropImgJsx}</div>
 
       <div className="flex flex-col gap-6 md:items-start">
         <Input
-          placeholder="Title"
+          placeholder={content("form.name")}
           containerStyles="w-full"
           error={errors[Fields.TITLE]?.message}
           name={Fields.TITLE}
@@ -176,7 +178,10 @@ export function MovieForm({ movie }: MovieFormProps) {
           register={register}
         />
         <Select
-          options={getOptionsTillYear()}
+          options={[
+            { label: content("form.year"), value: "" },
+            ...getOptionsTillYear(),
+          ]}
           containerStyles="w-full md:w-auto"
           error={errors[Fields.YEAR]?.message}
           name={Fields.YEAR}
@@ -194,14 +199,14 @@ export function MovieForm({ movie }: MovieFormProps) {
             disabled={isSubmitting}
             onClick={() => router.back()}
           >
-            Cancel
+            {content("form.cancel")}
           </Button>
           <Button
             type="submit"
             className="w-full md:w-48"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            {isSubmitting ? content("form.submitting") : content("form.submit")}
           </Button>
         </div>
       </div>

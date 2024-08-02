@@ -3,6 +3,9 @@ import Image from "next/image"
 import type { Metadata } from "next"
 import { Toaster } from "react-hot-toast"
 import { Montserrat } from "next/font/google"
+import { NextIntlClientProvider } from "next-intl"
+import { getLocale, getMessages } from "next-intl/server"
+import { LanguageSwitcher } from "@/components/actions"
 
 const font = Montserrat({ subsets: ["latin"], weight: ["400", "600", "800"] })
 
@@ -12,25 +15,33 @@ export const metadata: Metadata = {
   icons: "/icons/favicon.ico",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: React.PropsWithChildren<{ params: { locale: string } }>) {
+}: React.PropsWithChildren) {
+  const locale = await getLocale()
+  const messages = await getMessages()
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${font.className} relative flex min-h-screen flex-col bg-bg px-4 md:px-0`}
       >
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          <>
+            {children}
 
-        <Image
-          priority
-          src={"/images/bg.png"}
-          alt="background"
-          fill
-          className="bottom-0 left-0 right-0 top-[unset!important] -z-10 h-[8rem_!important] md:h-[15rem_!important]"
-        />
-        <Toaster />
+            <Image
+              priority
+              src={"/images/bg.png"}
+              alt="background"
+              fill
+              className="bottom-0 left-0 right-0 top-[unset!important] -z-10 h-[8rem_!important] md:h-[15rem_!important]"
+            />
+            <Toaster />
+
+            <LanguageSwitcher />
+          </>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

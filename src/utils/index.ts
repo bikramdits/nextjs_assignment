@@ -22,8 +22,16 @@ export function getOptionsTillYear() {
 export function deleteCookie(name: string) {
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
 }
+export function setLocalStorage(key: string, value: string) {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+export function getLocalStorage(key: string) {
+  const item = localStorage.getItem(key)
+  return item ? JSON.parse(item) : null
+}
 
 export const appConstants = {
   PAGINATION_PARAM: "page",
   AUTH_COOKIE: "authorization",
+  LOCALE_COOKIE: "locale",
 }

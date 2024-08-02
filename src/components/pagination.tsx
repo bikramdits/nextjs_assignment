@@ -1,6 +1,7 @@
 "use client"
 
 import { appConstants, cn } from "@/utils"
+import { useTranslations } from "next-intl"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback } from "react"
 
@@ -9,7 +10,8 @@ type PaginationProps = {
 }
 
 export function Pagination(props: PaginationProps) {
-  const { numberOfPages } = props
+  const { numberOfPages } = props;
+  const content = useTranslations('moviesList');
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -42,7 +44,7 @@ export function Pagination(props: PaginationProps) {
           onPageChange(+pageNum - 1)
         }}
       >
-        Prev
+        {content("prev")}
       </button>
 
       <div className="flex max-w-[24rem] items-center gap-2 overflow-auto">
@@ -103,7 +105,7 @@ export function Pagination(props: PaginationProps) {
         }}
         className="font-base font-semibold text-white disabled:cursor-not-allowed disabled:bg-opacity-60"
       >
-        Next
+        {content("next")}
       </button>
     </div>
   )

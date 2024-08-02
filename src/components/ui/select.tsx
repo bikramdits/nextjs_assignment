@@ -5,9 +5,9 @@ import { UseFormRegister } from "react-hook-form"
 type SelectProps = {
   error?: string
   containerStyles?: string
-  options: { label: string; value: string }[]
+  options: { label: string | React.ReactNode; value: string }[]
   name: string
-  register: UseFormRegister<any>
+  register?: UseFormRegister<any>
 } & DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
@@ -21,10 +21,10 @@ export function Select(props: SelectProps) {
   )
   return (
     <div className={cn("flex flex-col", containerStyles)}>
-      <select className={styles} {...other} {...register(name)}>
+      <select className={styles} {...other} {...register?.(name)}>
         {options.map((opt) => {
           return (
-            <option key={opt.value} value={opt.value}>
+            <option disabled={opt.value.length === 0} key={opt.value} value={opt.value}>
               {opt.label}
             </option>
           )
