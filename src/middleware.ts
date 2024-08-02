@@ -12,11 +12,8 @@ const protected_apis = ["/api/movies"]
 
 const publicRoutes = ["/signin"]
 export async function middleware(req: NextRequest) {
-  console.log("Running Middleware for - ", req.nextUrl.pathname)
-  console.log("Running Middleware for - ", req.url)
-
   if (startsWithAny(req.nextUrl.pathname, protected_apis)) {
-    // return await authenticatedApiRoutes(req)
+    return await authenticatedApiRoutes(req)
   }
 
   if (startsWithAny(req.nextUrl.pathname, protected_routes)) {
@@ -41,11 +38,6 @@ async function authenticatedApiRoutes(req: NextRequest) {
   try {
     const token = req.cookies.get(appConstants.AUTH_COOKIE)?.value
     const secretKey = new TextEncoder().encode(env.secret_key)
-    console.log({
-      token,
-      cookie: req.cookies.has(appConstants.AUTH_COOKIE),
-      all: req.cookies.getAll(),
-    })
 
     if (!token) {
       return NextResponse.json(unauthError, {

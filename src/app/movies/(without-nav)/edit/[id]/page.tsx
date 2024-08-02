@@ -24,6 +24,7 @@ export default function EditMovie({ params }: { params: { id: string } }) {
         }
       } catch (e: any) {
         toast.error(e.response.data.message)
+        setGetMovieState(ApiState.ERROR)
       }
     }
 
@@ -38,6 +39,10 @@ export default function EditMovie({ params }: { params: { id: string } }) {
         <div className="col-span-2 min-h-[10rem] animate-pulse rounded-xl bg-card pb-4 sm:px-2 sm:pt-2 md:min-h-[12rem]" />
       </LoadingUI>
     )
+  }
+
+  if (getMovieState === ApiState.ERROR) {
+    throw new Error("Oops! Looks Like No Such movie Exists")
   }
   return <MovieForm movie={movie} />
 }

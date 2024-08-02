@@ -67,7 +67,9 @@ export default function SignIn() {
   }
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[20rem]">
-      <h1 className="text-h1 font-semibold text-white">{content("title")}</h1>
+      <h1 className="text-center text-h1 font-semibold text-white">
+        {content("title")}
+      </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}

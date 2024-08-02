@@ -3,7 +3,9 @@ import { cookies } from "next/headers"
 import { appConstants } from "./utils"
 
 export default getRequestConfig(async () => {
-  const locale = cookies().get(appConstants.LOCALE_COOKIE)?.value || "en"
+  const locale =
+    cookies().get(appConstants.LOCALE_COOKIE)?.value ||
+    appConstants.DEFAULT_LOCALE
 
   return {
     locale,
