@@ -246,7 +246,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         movies,
         totalItems,
         currentPage: page | 1,
-        limit: limit | 10,
+        limit: limit | 12,
         totalPages: totalPages | 1,
       },
       StatusCodes.OK
