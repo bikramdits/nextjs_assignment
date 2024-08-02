@@ -35,6 +35,7 @@ export const POST = async (req: NextRequest) => {
     const body = {
       title: title ? title : undefined,
       publishingYear: publishingYear ? +publishingYear : undefined,
+      file: file ? file : undefined,
     }
 
     // validating payload
