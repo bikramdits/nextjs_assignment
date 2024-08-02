@@ -7,40 +7,53 @@ import Users from "@/models/user"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
-import { env } from "@/utils/env"
+import { IUSERS } from "@/utils/types"
 
+/**
+ * Login User
+ * @param req @NextRequest
+ * @returns @Token
+ */
 export const POST = async (req: NextRequest) => {
   try {
-    const { email, password } = await req.json()
-    const user = await Users.findOne({ email })
+    // storing request payload in body
+    const body = await req.json()
 
-    // If No user exists
+    // finding user by email
+    const user = (await Users.findOne({
+      email: body.email,
+    })) as unknown as IUSERS
+
+    // return error user not found
     if (!user) {
       return SendResponse(
         { message: RESPONSE_MESSAGES.COMMON.USER_NOT_FOUND },
-        StatusCodes.NOT_FOUND
-      )
-    }
-
-    // Comparing Password
-    if (await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign(
-        { _id: user._id, email: user?.email },
-        env.secret_key
-      )
-      return SendResponse(
-        {
-          token,
-        },
         StatusCodes.OK
       )
     }
-    // Unauthorized user for invalid credentials
+
+    //validating password 
+    const validPassword = await bcrypt.compare(body?.password, user?.password)
+
+    //if password validated
+    if (validPassword) {
+      // storing secret key from env
+      const secretKey: string = process.env.SECRET_KEY as string
+
+      // using jwt sign for token generate
+      const token = jwt.sign({ _id: user._id, email: user?.email }, secretKey)
+
+      // making response payload for token
+      const resPayload = {
+        token: token,
+      }
+      // sending response
+      return SendResponse(resPayload, StatusCodes.OK)
+    }
+    // if password not valid returning unauthorized
     return SendResponse(
-      {
-        message: RESPONSE_MESSAGES.LOGIN.UNAUTHORIZED,
-      },
-      StatusCodes.UNAUTHORIZED
+      { message: RESPONSE_MESSAGES.LOGIN.UNAUTHORIZED },
+      StatusCodes.BAD_REQUEST
     )
   } catch (error) {
     const e = error as Error

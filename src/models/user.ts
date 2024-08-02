@@ -5,12 +5,12 @@ const UsersSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: [true, "First name is required!"],
+      required: [false, "First name is required!"],
       trim: true,
     },
     lastName: {
       type: String,
-      required: [true, "Last name is required!"],
+      required: [false, "Last name is required!"],
       trim: true,
     },
     email: {
@@ -34,7 +34,7 @@ const UsersSchema = new mongoose.Schema(
 )
 UsersSchema.pre("save", async function (next) {
   try {
-    const savedPassword = await bcrypt.hash(this.password, 5)
+    const savedPassword = await bcrypt.hash(this.password as unknown as any, 5)
     this.password = savedPassword
     next()
   } catch (error) {

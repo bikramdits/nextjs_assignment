@@ -1,19 +1,23 @@
-import { env } from "@/utils/env"
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-let connection: mongoose.Connection
-async function dbConnect() {
-  if (connection?.readyState) {
-    return
-  }
+const connection :any= {};
 
-  try {
-    const db = await mongoose.connect(env.mongo_url, {})
+( async function dbConnect() {
+	if (connection.isConnected) {
+		return;
+	}
 
-    connection = db.connections[0]
-  } catch (error: any) {
-    console.log(error.message)
-  }
-}
+	try {
+		const db = await mongoose.connect(process.env.MONGO_URL as unknown as string, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		});
 
-dbConnect()
+		connection.isConnected = db.connections[0].readyState;
+
+	
+	} catch (error) {
+		const e =error as unknown as Error
+		console.log(e.message);
+	}
+})();
