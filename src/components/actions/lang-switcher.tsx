@@ -27,6 +27,7 @@ export function LanguageSwitcher() {
       {languages.map((l) => {
         return (
           <div
+            key={l.value}
             className={cn(
               `cursor-pointer p-1 hover:bg-white`,
               selectedLanguage === l.value ? "bg-white" : ""
