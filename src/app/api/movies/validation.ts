@@ -10,4 +10,3 @@ export const updateMovieSchema = zod.object({
   publishingYear: zod.number(),
   file: zod.object({ name: zod.string() }).optional(),
 })
-
