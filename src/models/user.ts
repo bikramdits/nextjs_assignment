@@ -15,12 +15,12 @@ const UsersSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [false, "email is required!"], // Email is not mandatory
+      required: [true, "email is required!"],
       trim: true,
     },
     password: {
       type: String,
-      required: [false, "password is required!"], // Password is not mandatory
+      required: [true, "password is required!"],
       trim: true,
     },
     isDeleted: {
@@ -29,7 +29,7 @@ const UsersSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Automatically manage createdAt and updatedAt
+    timestamps: true,
   }
 )
 UsersSchema.pre("save", async function (next) {
@@ -37,12 +37,10 @@ UsersSchema.pre("save", async function (next) {
     const savedPassword = await bcrypt.hash(this.password as unknown as any, 5)
     this.password = savedPassword
     next()
-  } catch (error){
-  return error
+  } catch (error) {
+    return error
   }
 })
 
-
-const Users = mongoose.models.User ||mongoose.model("User", UsersSchema)
-
+const Users = mongoose.models.User || mongoose.model("User", UsersSchema)
 export default Users

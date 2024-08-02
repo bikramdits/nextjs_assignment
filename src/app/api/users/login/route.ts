@@ -1,12 +1,13 @@
 import "@/database/connection"
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import { NextRequest } from "next/server"
+
 import Users from "@/models/user"
 import SendResponse from "@/utils/response"
 import { RESPONSE_MESSAGES } from "@/utils/responseMessages"
 import StatusCodes from "@/utils/statusCodeEnum"
 import { IUSERS } from "@/utils/types"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-import { NextRequest } from "next/server"
 
 /**
  * Login User

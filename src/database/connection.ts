@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connection = {};
+const connection :any= {};
 
 ( async function dbConnect() {
 	if (connection.isConnected) {

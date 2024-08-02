@@ -68,9 +68,7 @@ export const POST = async (req: NextRequest) => {
         // If it doesn't exist, create the directory
         fs.mkdirSync(uploadDir, { recursive: true })
       }
-
-      // Write the file buffer to the upload directory with the specified filename
-      await writeFile(uploadDir + filename, buffer)
+      await writeFile(uploadDir + "/" + filename, buffer)
     }
 
     // making payload for update
@@ -113,7 +111,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
     // storing publishingYear
     const publishingYear = formData.get("publishingYear")
     // storing poster
-    const poster = formData.get("poster")
+    const file_url = formData.get("file_url")
     // making payload
     const body = {
       title: title ? title : undefined,
@@ -157,7 +155,7 @@ export const PUT = async (req: NextRequest, res: NextResponse) => {
 
     // making payload for update
     const payload = {
-      poster: imageUrl ?? poster ?? null,
+      poster: imageUrl ?? file_url ?? null,
       id,
       publishingYear,
       title,
@@ -225,11 +223,11 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     let page = query.get("page") as unknown as number
 
     let title = query.get("title") as unknown as string
-    let queryParam= {} as {title :Object}
+    let queryParam = {} as { title: Object }
     // Calculate the offset
     const offset = (page - 1) * limit
     if (title) {
-      queryParam.title = { $regex: title, $options: 'i' }; // Case-insensitive search
+      queryParam.title = { $regex: title, $options: "i" } // Case-insensitive search
     }
     // finding user
     const movies = await Movies.find(queryParam)
@@ -237,13 +235,19 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       .skip(offset)
       .limit(limit)
       .exec()
-      // finding total items
+    // finding total items
     const totalItems = await Movies.countDocuments()
     // finding total pages
     const totalPages = Math.ceil(totalItems / limit)
 
     return SendResponse(
-      { movies, totalItems, currentPage: page|1, limit:limit|10, totalPages:totalPages|1},
+      {
+        movies,
+        totalItems,
+        currentPage: page | 1,
+        limit: limit | 10,
+        totalPages: totalPages | 1,
+      },
       StatusCodes.OK
     )
   } catch (error) {
