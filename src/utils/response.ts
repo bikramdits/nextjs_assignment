@@ -1,4 +1,3 @@
-import type { NextApiResponse } from "next"
 import StatusCodes from "./statusCodeEnum"
 import { RESPONSE_MESSAGES } from "./responseMessages"
 import { NextResponse } from "next/server"

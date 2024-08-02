@@ -18,6 +18,6 @@ const connection = {};
 	
 	} catch (error) {
 		const e =error as unknown as Error
-		console.log(error.message);
+		console.log(e.message);
 	}
 })();
