@@ -14,7 +14,7 @@ export const GET = async (req: Request, { params }: IPARAMS) => {
     // getting id form params
     const id = params.id
     // find movie from id
-    const movie = await Movies.findOne({ id })
+    const movie = await Movies.findById(id)
     // if not found movie
     if (!movie) {
       return SendResponse(
