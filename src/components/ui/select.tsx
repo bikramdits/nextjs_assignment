@@ -24,7 +24,12 @@ export function Select(props: SelectProps) {
       <select className={styles} {...other} {...register?.(name)}>
         {options.map((opt) => {
           return (
-            <option disabled={opt.value.length === 0} key={opt.value} value={opt.value}>
+            <option
+              disabled={opt.value.length === 0}
+              key={opt.value}
+              value={opt.value}
+              className="text-white"
+            >
               {opt.label}
             </option>
           )

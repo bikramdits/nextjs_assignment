@@ -77,7 +77,7 @@ export function MovieForm({ movie }: MovieFormProps) {
     resolver: yupResolver(movieFormSchema),
     defaultValues: {
       [Fields.TITLE]: movie?.title || "",
-      [Fields.IMAGE]: movie?.poster || "",
+      [Fields.IMAGE]: movie?.poster || undefined,
       [Fields.YEAR]: movie?.publishingYear?.toString() || "",
     },
   })

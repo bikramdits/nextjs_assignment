@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
       )
     }
 
-    //validating password 
+    //validating password
     const validPassword = await bcrypt.compare(body?.password, user?.password)
 
     //if password validated

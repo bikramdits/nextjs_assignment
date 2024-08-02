@@ -21,10 +21,11 @@ const languages = [
 export function LanguageSwitcher() {
   const router = useRouter()
   return (
-    <div className="flex absolute right-6 top-6 gap-6">
+    <div className="absolute right-6 top-6 flex gap-6">
       {languages.map((l) => {
         return (
           <Image
+            key={l.value}
             onClick={(e) => {
               setCookie(appConstants.LOCALE_COOKIE, l.value)
               router.refresh()

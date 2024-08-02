@@ -10,8 +10,8 @@ type PaginationProps = {
 }
 
 export function Pagination(props: PaginationProps) {
-  const { numberOfPages } = props;
-  const content = useTranslations('moviesList');
+  const { numberOfPages } = props
+  const content = useTranslations("moviesList")
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()

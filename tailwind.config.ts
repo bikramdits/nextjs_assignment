@@ -50,8 +50,8 @@ const config: Config = {
         full: "9999px",
       },
       screens: {
-        '2xl': '1636px',
-      }
+        "2xl": "1636px",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

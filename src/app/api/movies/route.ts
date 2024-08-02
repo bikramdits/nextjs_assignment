@@ -251,6 +251,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
       StatusCodes.OK
     )
   } catch (error) {
+    console.log(error)
     return SendResponse(
       { message: RESPONSE_MESSAGES.COMMON.INVALID_REQUEST },
       StatusCodes.INTERNAL_SERVER_ERROR

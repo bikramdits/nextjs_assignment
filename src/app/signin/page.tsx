@@ -9,7 +9,7 @@ import { appConstants, setCookie } from "@/utils"
 import { AuthRequest, AuthResponse } from "@/types/user"
 import { toast } from "react-hot-toast"
 import { useRouter } from "next/navigation"
-import {useTranslations} from 'next-intl';
+import { useTranslations } from "next-intl"
 
 enum Fields {
   EMAIL = "email",
@@ -38,7 +38,7 @@ const signInSchema = Yup.object().shape({
 })
 
 export default function SignIn() {
-  const content = useTranslations('signIn');
+  const content = useTranslations("signIn")
   const router = useRouter()
   const {
     register,
@@ -67,7 +67,7 @@ export default function SignIn() {
   }
   return (
     <div className="flex w-full flex-1 flex-col items-center justify-center gap-8 self-center md:w-[20rem]">
-      <h1 className="text-h1 font-semibold text-white">{content('title')}</h1>
+      <h1 className="text-h1 font-semibold text-white">{content("title")}</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -92,7 +92,7 @@ export default function SignIn() {
 
         <div className="flex items-center justify-center gap-x-2 text-white">
           <Checkbox
-            label={content('remember')}
+            label={content("remember")}
             register={register}
             name={Fields.REMEMBER}
             disabled={_formState.isSubmitting}

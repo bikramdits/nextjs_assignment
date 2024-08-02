@@ -16,7 +16,6 @@ export interface IPARAMS {
 }
 
 export interface IMOVIES {
-    title: string
-    publishingYear:string
-
+  title: string
+  publishingYear: string
 }

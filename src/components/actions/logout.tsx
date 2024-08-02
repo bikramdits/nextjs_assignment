@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
 import Image from "next/image"
 import { appConstants, deleteCookie } from "@/utils"
 import { useRouter } from "next/navigation"
-import { useTranslations } from "next-intl";
+import { useTranslations } from "next-intl"
 
 export function LogoutAction() {
-  const contentNav = useTranslations('logout');
+  const contentNav = useTranslations("logout")
   const { replace } = useRouter()
   const logout = () => {
     deleteCookie(appConstants.AUTH_COOKIE)
