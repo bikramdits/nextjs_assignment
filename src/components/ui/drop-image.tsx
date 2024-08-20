@@ -28,8 +28,8 @@ export function DropImage({ image, error, onImageChange }: DropImageProps) {
     <div
       onDragOver={(e) => e.preventDefault()}
       className={cn(
-        "relative flex h-full flex-col items-center justify-center rounded-lg border border-dashed bg-input ",
-        error ? "border-error text-error" : "border-white text-white"
+        "relative flex flex-col items-center justify-center rounded-lg border border-dashed bg-input w-[473px] h-[504px]",
+        error ? "border-error text-error" : "border-white text-white "
       )}
     >
       {imageUrl?.length > 0 ? (

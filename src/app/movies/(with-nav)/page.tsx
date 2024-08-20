@@ -30,7 +30,7 @@ export default function AppListPage({ searchParams }: PageProps) {
       try {
         setGetMoviesState(ApiState.LOADING)
         const moviesRes = await getRequest<IMoviesResponse>(
-          `/movies?page=${page}`
+          `/movies?page=${page}&limit=12`
         )
         if (moviesRes.status === 200 && moviesRes.data.movies) {
           setMovies(moviesRes.data.movies)
@@ -60,8 +60,8 @@ export default function AppListPage({ searchParams }: PageProps) {
     <div className="mt-20 flex flex-1 flex-col">
       {movies.length > 0 ? (
         <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-3 xl:grid-cols-4">
-          {movies.map((i) => (
-            <MovieCard key={i.title} {...i} />
+          {movies.map((i, index) => (
+            <MovieCard key={index} {...i} />
           ))}
         </div>
       ) : (

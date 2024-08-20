@@ -2,8 +2,6 @@
 
 ### 1. Clone this project:
 
-````
-
 ### 2. Installing dependencies
 
 you can install its dependencies with any tools which you use, but inside the project I used npm for pre-commit commands.
@@ -37,16 +35,23 @@ This is a Next.js API for managing movies, including user registration, login, a
 
 ## Technologies Used
 
-- next.js
+- NextJS - /app directory
 - JWT (jsonwebtoken)
 - bcrypt
 - fs/promises (for file handling)
+- React hook form - For form handling
+- Yup - For Form validation
+- Tailwind CSS - For styling
 
 ### Prerequisites
 
 - Node.js (18)
 - npm (10.7.0)
 
-## Postman Collection link
+## Dummy User for Login
 
-https://api.postman.com/collections/37341446-346b141a-27dd-4498-9d93-6073f595ffdd?access_key=PMAT-01J471GF6EPJ9FJKZMRFBZ6V3E
+Email : johnsnow@yopmail.com
+Password : Johnsnow@123
+
+## Live Preview URL
+Live URL hosted on AWS  - http://52.90.18.248:3000

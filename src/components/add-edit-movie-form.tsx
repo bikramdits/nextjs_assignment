@@ -176,6 +176,7 @@ export function MovieForm({ movie }: MovieFormProps) {
           name={Fields.TITLE}
           disabled={isSubmitting}
           register={register}
+          className="w-[362px]"
         />
         <Select
           options={[

@@ -219,7 +219,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     // storing query params
     const query = req.nextUrl.searchParams
     // storing limit
-    let limit = query.get("limit") as unknown as number
+    let limit = query.get("limit") as unknown as number || 12
     // storing page
     let page = query.get("page") as unknown as number
 

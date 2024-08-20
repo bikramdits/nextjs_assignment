@@ -15,7 +15,7 @@ type SelectProps = {
 export function Select(props: SelectProps) {
   const { error, options, containerStyles, name, register, ...other } = props
   const styles = cn(
-    "min-w-[12rem] bg-input text-white rounded-lg h-2xl px-4 outline-none border border-transparent active:border-input",
+    "min-w-[12rem] bg-input text-white rounded-lg h-2xl px-4 outline-none border border-transparent active:border-input w-[216px]",
     error ? "border-error text-error" : "",
     props.className
   )
